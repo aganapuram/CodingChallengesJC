@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './file_content.rb'
+
 def find_input_command(input_array)
   return '-c' if input_array.include?('-c')
   return '-l' if input_array.include?('-l')
@@ -9,25 +11,9 @@ def find_input_command(input_array)
   'invalid'
 end
 
-def file_size(file_content)
-  file_content.bytesize
-end
-
-def lines_count(lines)
-  lines.count
-end
-
-def word_count(file_content)
-  file_content.split(/\s+/).length
-end
-
-def char_count(file_content)
-  file_content.length
-end
-
 def print_info(count, file_name)
-  puts "#{count} #{file_name}" unless file_name.empty?
-  puts count if file_name.empty?
+  puts "#{count} #{file_name}" unless file_name.nil?
+  puts count if file_name.nil?
 end
 
 def find_index_of_file_and_command(input_array)
@@ -38,45 +24,55 @@ def find_index_of_file_and_command(input_array)
   [input, 0] if input != 'invalid'
 end
 
-file_content = ''
-file_name = ''
+def read(file)
+  file_content = ''
+  File.foreach(file) do |line|
+    file_content += line
+  end
+  file_content
+end
+
 input = ''
 # `ARGV` is a special global variable that holds the command-line arguments passed to a Ruby script.
 input_array = ARGV
+command_index = find_index_of_file_and_command(input_array)
 if !$stdin.tty?
-  # STDIN.tty? check if the standard input is interactively coming from the terminal.
+  # STDIN.tty? to check if the standard input is interactively coming from the terminal.
   # eg: `cat test.txt | ruby ccwb.rb -c`
-  # in the above input - text.txt is not being directly used as the standard input,
+  # in the above input - test.txt is not being directly used as the standard input,
   # rather the contents of the file are used an input.
   #
   # `$stdin` is a global variable that represents the standard input stream.
   # The use of $stdin in this context allows the script to read from the standard input,
   # which is being provided through the pipe (|) from the cat command.
-  file_content = $stdin.read
+  file_content = ''
+  $stdin.each_line do |line|
+    file_content += line
+  end
+  input = command_index[0]
 elsif input_array.length > 1
-  command_index = find_index_of_file_and_command(input_array)
   input = command_index[0]
   file_name = input_array[command_index[1]]
-  file_content = File.read(file_name)
+  file_content = read(file_name)
 elsif input_array.length.positive?
   file_name = input_array[0]
-  file_content = File.read(file_name)
+  file_content = read(file_name)
 end
 
-lines = file_content.lines
+file = FileContent.new(file_content) 
 
 case input
 when '-c'
-  print_info(file_size(file_content), file_name)
+  print_info(file.size, file_name)
 when '-l'
-  print_info(lines_count(lines), file_name)
+  print_info(file.lines_count, file_name)
 when '-w'
-  print_info(word_count(file_content), file_name)
+  print_info(file.word_count, file_name)
 when '-m'
-  print_info(char_count(file_content), file_name)
+  print_info(file.char_count, file_name)
 else
-  unless file_name.empty?
-    puts "#{lines_count(lines)} #{word_count(file_content)} #{file_size(file_content)} #{file_name}"
+  unless file_name.nil?
+    puts "#{file.lines_count} #{file.word_count} #{file.size} #{file_name}"
   end
-  puts "#{lines_count(lines)} #{word_count(file_content)} #{file_size(file_content)}" if file_name.empty?
+  puts "#{file.lines_count} #{file.word_count} #{file.size}" if file_name.nil?
 end
