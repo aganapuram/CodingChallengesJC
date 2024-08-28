@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# class to read a file's content line by line.
-# and provide file utilit information.
+# class to provide file utility information.
 class FileContent
   def initialize(file_content)
     @file_content = file_content

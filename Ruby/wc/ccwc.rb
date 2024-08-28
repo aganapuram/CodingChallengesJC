@@ -39,7 +39,7 @@ command_index = find_index_of_file_and_command(input_array)
 if !$stdin.tty?
   # STDIN.tty? to check if the standard input is interactively coming from the terminal.
   # eg: `cat test.txt | ruby ccwb.rb -c`
-  # in the above input - test.txt is not being directly used as the standard input,
+  # in the above input - test.txt is not being directly used as the standard input to the ruby script,
   # rather the contents of the file are used an input.
   #
   # `$stdin` is a global variable that represents the standard input stream.
