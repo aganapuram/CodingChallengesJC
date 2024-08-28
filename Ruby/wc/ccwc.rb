@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './file_content.rb'
+require_relative './file_content'
 
 def find_input_command(input_array)
   return '-c' if input_array.include?('-c')
@@ -59,7 +59,7 @@ elsif input_array.length.positive?
   file_content = read(file_name)
 end
 
-file = FileContent.new(file_content) 
+file = FileContent.new(file_content)
 
 case input
 when '-c'
@@ -71,8 +71,6 @@ when '-w'
 when '-m'
   print_info(file.char_count, file_name)
 else
-  unless file_name.nil?
-    puts "#{file.lines_count} #{file.word_count} #{file.size} #{file_name}"
-  end
+  puts "#{file.lines_count} #{file.word_count} #{file.size} #{file_name}" unless file_name.nil?
   puts "#{file.lines_count} #{file.word_count} #{file.size}" if file_name.nil?
 end

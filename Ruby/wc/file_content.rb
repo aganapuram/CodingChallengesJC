@@ -3,7 +3,6 @@
 # class to read a file's content line by line.
 # and provide file utilit information.
 class FileContent
-
   def initialize(file_content)
     @file_content = file_content
   end
@@ -24,5 +23,4 @@ class FileContent
   def char_count
     @file_content.length
   end
-
 end
