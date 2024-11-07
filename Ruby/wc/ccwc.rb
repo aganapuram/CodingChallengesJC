@@ -3,6 +3,7 @@
 require_relative './file_content'
 
 def find_input_command(input_array)
+  return 'invalid' if input_array.nil?
   return '-c' if input_array.include?('-c')
   return '-l' if input_array.include?('-l')
   return '-w' if input_array.include?('-w')
@@ -57,6 +58,8 @@ elsif input_array.length > 1
 elsif input_array.length.positive?
   file_name = input_array[0]
   file_content = read(file_name)
+else
+  raise StandardError 'Please provide a file"'
 end
 
 file = FileContent.new(file_content)
