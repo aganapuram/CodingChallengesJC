@@ -41,18 +41,18 @@ This page contains commands on how to run the wc challenge.
 
 ##### Get the character count of the contents of a file
 
-> ruby ccwc.rb -c <filename_with_extension> <br>
+> ruby ccwc.rb -m <filename_with_extension> <br>
 > or <br>
-> cat <filename_with_extension> | ruby ccwb -c
+> cat <filename_with_extension> | ruby ccwb -m
 * example: <br>
-  - `ruby ccwc.rb -c test.txt` <br>
+  - `ruby ccwc.rb -m test.txt` <br>
   `339292 test.txt`
-  - `cat test.txt | ruby ccwc.rb -c` <br>
+  - `cat test.txt | ruby ccwc.rb -m` <br>
   `339292`
 
 ##### Get the line count, word count of the contents and size of a file
 
 > ruby ccwc.rb <filename_with_extension> <br>
 * example: <br>
-  - `ruby ccwc.rb -c test.txt` <br>
+  - `ruby ccwc.rb test.txt` <br>
   `7145 58164 342190 test.txt`
