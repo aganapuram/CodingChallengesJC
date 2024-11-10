@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require_relative './file_content'
+require_relative './file_utility'
+
+include FileUtility
 
 def find_input_command(input_array)
   return 'invalid' if input_array.nil?
@@ -59,21 +61,21 @@ elsif input_array.length.positive?
   file_name = input_array[0]
   file_content = read(file_name)
 else
-  raise StandardError 'Please provide a file"'
+  raise StandardError.new 'Please provide a file'
 end
 
-file = FileContent.new(file_content)
+FileUtility::init file_content
 
 case input
 when '-c'
-  print_info(file.size, file_name)
+  print_info(FileUtility::size, file_name)
 when '-l'
-  print_info(file.lines_count, file_name)
+  print_info(FileUtility::lines_count, file_name)
 when '-w'
-  print_info(file.word_count, file_name)
+  print_info(FileUtility::word_count, file_name)
 when '-m'
-  print_info(file.char_count, file_name)
+  print_info(FileUtility::char_count, file_name)
 else
-  puts "#{file.lines_count} #{file.word_count} #{file.size} #{file_name}" unless file_name.nil?
-  puts "#{file.lines_count} #{file.word_count} #{file.size}" if file_name.nil?
+  puts "#{FileUtility::lines_count} #{FileUtility::word_count} #{FileUtility::size} #{file_name}" unless file_name.nil?
+  puts "#{FileUtility::lines_count} #{FileUtility::word_count} #{FileUtility::size}" if file_name.nil?
 end
